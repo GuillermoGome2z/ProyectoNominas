@@ -1,3 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using ProyectoNominas.Backend.Data;
+
 
 namespace ProyectoNominas.Backend
 {
@@ -7,16 +13,35 @@ namespace ProyectoNominas.Backend
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Cargar cadena de conexión desde appsettings.json
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            // Configurar controladores
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+            // Swagger/OpenAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            // Configurar autenticación JWT (opcional, solo si ya está usando JWT)
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                    };
+                });
+
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Configurar el pipeline HTTP
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -25,8 +50,8 @@ namespace ProyectoNominas.Backend
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication(); // Añadir antes de UseAuthorization
             app.UseAuthorization();
-
 
             app.MapControllers();
 
