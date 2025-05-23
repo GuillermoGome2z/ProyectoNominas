@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "SkV0ZUaj3X/TKVIMJhZ1Kf9iDDVKE2z+68oztk4Cm+uElIRvZRGhmhSIVvq7FeJeh7OeCZIILr6gQ5Lh7ZzYYQ==",
+  "dgSpecHash": "PVlRdf1SW5EU5he/BRALdBHGpCg1QT9wCfry5LCyEqgJOVkCkkSDYGMfx55qXAJklOZTeJQR2ACCgMqT6f/cLg==",
   "success": true,
   "projectFilePath": "C:\\Proyectos\\ProyectoAnalisis\\ProyectoNominas.Backend\\ProyectoNominas.Backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ACER\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\ACER\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
+    "C:\\Users\\ACER\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
     "C:\\Users\\ACER\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\ACER\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.0\\microsoft.aspnetcore.authentication.jwtbearer.8.0.0.nupkg.sha512",
     "C:\\Users\\ACER\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
