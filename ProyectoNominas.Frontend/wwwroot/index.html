@@ -1,31 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ProyectoNominas.Frontend</title>
-    <base href="/" />
-    <link rel="stylesheet" href="css/app.css" />
-    <!-- If you add any scoped CSS files, uncomment the following to load them
-    <link href="ProyectoNominas.Frontend.styles.css" rel="stylesheet" /> -->
+    <meta charset="UTF-8" />
+    <title>Gestión de Roles</title>
 </head>
-
 <body>
-    <div id="app">
-        <svg class="loading-progress">
-            <circle r="40%" cx="50%" cy="50%" />
-            <circle r="40%" cx="50%" cy="50%" />
-        </svg>
-        <div class="loading-progress-text"></div>
-    </div>
+    <h1>Lista de Roles</h1>
+    <ul id="roles-list"></ul>
 
-    <div id="blazor-error-ui">
-        An unhandled error has occurred.
-        <a href="" class="reload">Reload</a>
-        <a class="dismiss">🗙</a>
-    </div>
-    <script src="_framework/blazor.webassembly.js"></script>
+    <h2>Crear Nuevo Rol</h2>
+    <input type="text" id="nuevoRol" placeholder="Nombre del rol" />
+    <button onclick="crearRol()">Crear</button>
+
+    <h2>Editar Rol</h2>
+    <input type="number" id="editarId" placeholder="ID del rol" />
+    <input type="text" id="editarNombre" placeholder="Nuevo nombre" />
+    <button onclick="editarRol()">Actualizar</button>
+
+    <h2>Eliminar Rol</h2>
+    <input type="number" id="eliminarId" placeholder="ID del rol" />
+    <button onclick="eliminarRol()">Eliminar</button>
+
+    <script>
+        const apiUrl = 'https://localhost:7179/api/Roles';
+
+        function obtenerRoles() {
+            fetch(apiUrl)
+                .then(res => res.json())
+                .then(data => {
+                    const lista = document.getElementById('roles-list');
+                    lista.innerHTML = '';
+                    data.forEach(rol => {
+                        const item = document.createElement('li');
+                        item.textContent = `ID: ${rol.id} - Nombre: ${rol.nombre}`;
+                        lista.appendChild(item);
+                    });
+                })
+                .catch(err => console.error('Error al obtener roles:', err));
+        }
+
+        function crearRol() {
+            const nombre = document.getElementById('nuevoRol').value;
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nombre })
+            })
+                .then(() => {
+                    alert('Rol creado correctamente');
+                    document.getElementById('nuevoRol').value = '';
+                    obtenerRoles();
+                })
+                .catch(err => console.error('Error al crear rol:', err));
+        }
+
+        function editarRol() {
+            const id = document.getElementById('editarId').value;
+            const nombre = document.getElementById('editarNombre').value;
+
+            fetch(`${apiUrl}/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, nombre })
+            })
+                .then(() => {
+                    alert('Rol actualizado');
+                    document.getElementById('editarId').value = '';
+                    document.getElementById('editarNombre').value = '';
+                    obtenerRoles();
+                })
+                .catch(err => console.error('Error al actualizar rol:', err));
+        }
+
+        function eliminarRol() {
+            const id = document.getElementById('eliminarId').value;
+            fetch(`${apiUrl}/${id}`, {
+                method: 'DELETE'
+            })
+                .then(() => {
+                    alert('Rol eliminado');
+                    document.getElementById('eliminarId').value = '';
+                    obtenerRoles();
+                })
+                .catch(err => console.error('Error al eliminar rol:', err));
+        }
+
+        obtenerRoles();
+    </script>
 </body>
-
 </html>
