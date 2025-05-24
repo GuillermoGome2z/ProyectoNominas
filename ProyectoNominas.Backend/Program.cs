@@ -4,7 +4,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ProyectoNominas.Backend.Data;
 
-
 namespace ProyectoNominas.Backend
 {
     public class Program
@@ -17,6 +16,17 @@ namespace ProyectoNominas.Backend
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            // Configurar CORS para permitir peticiones desde el frontend
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("PermitirFrontend", policy =>
+                {
+                    policy.WithOrigins("https://localhost:7280") // Puerto del frontend
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
             // Configurar controladores
             builder.Services.AddControllers();
 
@@ -24,7 +34,7 @@ namespace ProyectoNominas.Backend
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            // Configurar autenticación JWT (opcional, solo si ya está usando JWT)
+            // Configurar autenticación JWT
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -50,8 +60,10 @@ namespace ProyectoNominas.Backend
 
             app.UseHttpsRedirection();
 
-            app.UseAuthentication(); // Añadir antes de UseAuthorization
-            app.UseAuthorization();
+            app.UseCors("PermitirFrontend"); // Habilitar política de CORS
+
+            app.UseAuthentication(); // JWT
+            app.UseAuthorization();  // Roles/autorización
 
             app.MapControllers();
 
