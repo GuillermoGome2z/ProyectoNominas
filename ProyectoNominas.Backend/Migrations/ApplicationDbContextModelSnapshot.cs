@@ -22,6 +22,23 @@ namespace ProyectoNominas.Backend.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Departamento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departamentos");
+                });
+
             modelBuilder.Entity("ProyectoNominas.Backend.Models.Auditoria", b =>
                 {
                     b.Property<int>("Id")
@@ -88,23 +105,6 @@ namespace ProyectoNominas.Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Deducciones");
-                });
-
-            modelBuilder.Entity("ProyectoNominas.Backend.Models.Departamento", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Departamentos");
                 });
 
             modelBuilder.Entity("ProyectoNominas.Backend.Models.DetalleNomina", b =>
@@ -372,7 +372,7 @@ namespace ProyectoNominas.Backend.Migrations
 
             modelBuilder.Entity("ProyectoNominas.Backend.Models.Empleado", b =>
                 {
-                    b.HasOne("ProyectoNominas.Backend.Models.Departamento", "Departamento")
+                    b.HasOne("Departamento", "Departamento")
                         .WithMany("Empleados")
                         .HasForeignKey("DepartamentoId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -408,7 +408,7 @@ namespace ProyectoNominas.Backend.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("ProyectoNominas.Backend.Models.Departamento", b =>
+            modelBuilder.Entity("Departamento", b =>
                 {
                     b.Navigation("Empleados");
                 });
