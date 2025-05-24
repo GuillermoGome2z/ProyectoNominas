@@ -1,10 +1,11 @@
-﻿namespace ProyectoNominas.Backend.Models
-{
-    public class Departamento
-    {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
+﻿using ProyectoNominas.Backend.Models;
+using System.Text.Json.Serialization;
 
-        public ICollection<Empleado> Empleados { get; set; }
-    }
+public class Departamento
+{
+    public int Id { get; set; }
+    public string Nombre { get; set; }
+
+    //[JsonIgnore] // Evita la validación del campo Empleados al crear
+    //public ICollection<Empleado> Empleados { get; set; }
 }
