@@ -1,4 +1,5 @@
 ﻿namespace ProyectoNominas.Backend.Models
+
 {
     public class UsuarioRol
     {
