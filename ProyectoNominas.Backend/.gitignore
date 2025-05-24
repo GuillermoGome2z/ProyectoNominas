@@ -1,0 +1,33 @@
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Build results
+[Bb]in/
+[Oo]bj/
+
+## Logs
+*.log
+
+## Environment settings
+.env
+*.env
+
+## App settings locales (NO incluir appsettings.json base)
+appsettings.*.json
+!appsettings.json
+
+## Database files
+*.mdf
+*.ldf
+
+## VS Code
+.vscode/
+
+## Others
+*.db
+*.DS_Store
+Thumbs.db
